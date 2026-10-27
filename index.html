@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>全国社寺 参拝おみくじ＆参拝記録</title>
+  <title>全国社寺 参拝おみくじ</title>
   <style>
     :root {
       --bg-color: #f7f4ed;
@@ -16,7 +17,6 @@
       --text-muted: #7f8c8d;
       --border: #e0dacc;
       --shadow: 0 10px 25px rgba(0,0,0,0.08);
-      --success: #27ae60;
     }
 
     * {
@@ -72,43 +72,6 @@
       gap: 20px;
     }
 
-    /* タブ切り替え */
-    .tab-menu {
-      display: flex;
-      background: var(--border);
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 5px;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: bold;
-      background: transparent;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
-      color: var(--text-muted);
-      transition: all 0.2s;
-    }
-
-    .tab-btn.active {
-      background: #fff;
-      color: var(--primary);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
     .control-card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -145,6 +108,7 @@
       border-color: var(--primary);
     }
 
+    /* 候補社寺を表示するスペース（おみくじの上） */
     .candidate-box {
       background: #faf8f5;
       border: 1px dashed var(--gold);
@@ -167,7 +131,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
-      max-height: 120px;
+      max-height: 100px;
       overflow-y: auto;
     }
 
@@ -175,18 +139,9 @@
       font-size: 0.75rem;
       background: #fff;
       border: 1px solid var(--border);
-      padding: 4px 8px;
+      padding: 3px 8px;
       border-radius: 6px;
       color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .candidate-tag.visited {
-      background: #e8f8f0;
-      border-color: var(--success);
-      color: #1e8449;
     }
 
     .btn-draw {
@@ -370,33 +325,6 @@
       letter-spacing: 2px;
     }
 
-    .action-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn-visited {
-      width: 100%;
-      padding: 12px;
-      background-color: var(--success);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: background-color 0.2s;
-    }
-
-    .btn-visited.unvisited {
-      background-color: #95a5a6;
-    }
-
     .btn-link {
       display: inline-flex;
       align-items: center;
@@ -413,57 +341,8 @@
       transition: background-color 0.2s;
     }
 
-    /* 記録タブの中身 */
-    .stats-card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      margin-bottom: 15px;
-      text-align: center;
-    }
-
-    .stats-num {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--primary);
-      margin: 5px 0;
-    }
-
-    .file-actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .btn-file {
-      flex: 1;
-      padding: 10px;
-      font-size: 0.85rem;
-      font-weight: bold;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #fff;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    .visited-item-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .visited-item {
-      background: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .btn-link:hover {
+      background-color: #2c3e50;
     }
 
     footer {
@@ -478,153 +357,122 @@
 
   <header>
     <h1>全国社寺 参拝おみくじ</h1>
-    <p class="subtitle">おみくじを引いて、あなただけの参拝録を作ろう</p>
+    <p class="subtitle">都道府県を選んでおみくじを振ろう！ご利益・参拝時間の案内付き</p>
   </header>
 
   <div class="container">
-    <!-- タブメニュー -->
-    <div class="tab-menu">
-      <button class="tab-btn active" onclick="switchTab('omikuji')">🎍 おみくじを引く</button>
-      <button class="tab-btn" onclick="switchTab('records')">📖 参拝記録・ファイル連携</button>
+    <div class="control-card">
+      <div class="form-group">
+        <label for="prefSelect">📍 都道府県を選択</label>
+        <select id="prefSelect">
+          <option value="all">全国（すべての社寺）</option>
+          <option value="北海道">北海道</option>
+          <option value="青森県">青森県</option>
+          <option value="岩手県">岩手県</option>
+          <option value="宮城県">宮城県</option>
+          <option value="秋田県">秋田県</option>
+          <option value="山形県">山形県</option>
+          <option value="福島県">福島県</option>
+          <option value="茨城県">茨城県</option>
+          <option value="栃木県">栃木県</option>
+          <option value="群馬県">群馬県</option>
+          <option value="埼玉県">埼玉県</option>
+          <option value="千葉県">千葉県</option>
+          <option value="東京都">東京都</option>
+          <option value="神奈川県">神奈川県</option>
+          <option value="新潟県">新潟県</option>
+          <option value="富山県">富山県</option>
+          <option value="石川県">石川県</option>
+          <option value="福井県">福井県</option>
+          <option value="山梨県">山梨県</option>
+          <option value="長野県">長野県</option>
+          <option value="岐阜県">岐阜県</option>
+          <option value="静岡県">静岡県</option>
+          <option value="愛知県">愛知県</option>
+          <option value="三重県">三重県</option>
+          <option value="滋賀県">滋賀県</option>
+          <option value="京都府">京都府</option>
+          <option value="大阪府">大阪府</option>
+          <option value="兵庫県">兵庫県</option>
+          <option value="奈良県">奈良県</option>
+          <option value="和歌山県">和歌山県</option>
+          <option value="鳥取県">鳥取県</option>
+          <option value="島根県">島根県</option>
+          <option value="岡山県">岡山県</option>
+          <option value="広島県">広島県</option>
+          <option value="山口県">山口県</option>
+          <option value="徳島県">徳島県</option>
+          <option value="香川県">香川県</option>
+          <option value="愛媛県">愛媛県</option>
+          <option value="高知県">高知県</option>
+          <option value="福岡県">福岡県</option>
+          <option value="佐賀県">佐賀県</option>
+          <option value="長崎県">長崎県</option>
+          <option value="熊本県">熊本県</option>
+          <option value="大分県">大分県</option>
+          <option value="宮崎県">宮崎県</option>
+          <option value="鹿児島県">鹿児島県</option>
+          <option value="沖縄県">沖縄県</option>
+        </select>
+      </div>
+
+      <!-- おみくじの上に表示する候補社寺スペース -->
+      <div class="candidate-box">
+        <div class="candidate-header">
+          <span>🎯 この条件の出力候補</span>
+          <span id="candidateCountBadge">0件</span>
+        </div>
+        <div id="candidateList" class="candidate-list">
+          <!-- タグがここに動的に入ります -->
+        </div>
+      </div>
+
+      <div class="omikuji-container">
+        <div id="stick" class="stick">一番</div>
+        <div id="cylinder" class="cylinder">
+          <div class="cylinder-title">奉納おみくじ</div>
+        </div>
+      </div>
+
+      <button id="drawBtn" class="btn-draw">
+        <span>🎍</span> おみくじを振る <span>🎍</span>
+      </button>
     </div>
 
-    <!-- おみくじタブ -->
-    <div id="tab-omikuji" class="tab-content active">
-      <div class="control-card">
-        <div class="form-group">
-          <label for="prefSelect">📍 都道府県を選択</label>
-          <select id="prefSelect">
-            <option value="all">全国（すべての社寺）</option>
-            <option value="北海道">北海道</option>
-            <option value="青森県">青森県</option>
-            <option value="岩手県">岩手県</option>
-            <option value="宮城県">宮城県</option>
-            <option value="秋田県">秋田県</option>
-            <option value="山形県">山形県</option>
-            <option value="福島県">福島県</option>
-            <option value="茨城県">茨城県</option>
-            <option value="栃木県">栃木県</option>
-            <option value="群馬県">群馬県</option>
-            <option value="埼玉県">埼玉県</option>
-            <option value="千葉県">千葉県</option>
-            <option value="東京都">東京都</option>
-            <option value="神奈川県">神奈川県</option>
-            <option value="新潟県">新潟県</option>
-            <option value="富山県">富山県</option>
-            <option value="石川県">石川県</option>
-            <option value="福井県">福井県</option>
-            <option value="山梨県">山梨県</option>
-            <option value="長野県">長野県</option>
-            <option value="岐阜県">岐阜県</option>
-            <option value="静岡県">静岡県</option>
-            <option value="愛知県">愛知県</option>
-            <option value="三重県">三重県</option>
-            <option value="滋賀県">滋賀県</option>
-            <option value="京都府">京都府</option>
-            <option value="大阪府">大阪府</option>
-            <option value="兵庫県">兵庫県</option>
-            <option value="奈良県">奈良県</option>
-            <option value="和歌山県">和歌山県</option>
-            <option value="鳥取県">鳥取県</option>
-            <option value="島根県">島根県</option>
-            <option value="岡山県">岡山県</option>
-            <option value="広島県">広島県</option>
-            <option value="山口県">山口県</option>
-            <option value="徳島県">徳島県</option>
-            <option value="香川県">香川県</option>
-            <option value="愛媛県">愛媛県</option>
-            <option value="高知県">高知県</option>
-            <option value="福岡県">福岡県</option>
-            <option value="佐賀県">佐賀県</option>
-            <option value="長崎県">長崎県</option>
-            <option value="熊本県">熊本県</option>
-            <option value="大分県">大分県</option>
-            <option value="宮崎県">宮崎県</option>
-            <option value="鹿児島県">鹿児島県</option>
-            <option value="沖縄県">沖縄県</option>
-          </select>
-        </div>
-
-        <div class="candidate-box">
-          <div class="candidate-header">
-            <span>🎯 この条件の出力候補（✅は参拝済み）</span>
-            <span id="candidateCountBadge">0件</span>
-          </div>
-          <div id="candidateList" class="candidate-list"></div>
-        </div>
-
-        <div class="omikuji-container">
-          <div id="stick" class="stick">一番</div>
-          <div id="cylinder" class="cylinder">
-            <div class="cylinder-title">奉納おみくじ</div>
-          </div>
-        </div>
-
-        <button id="drawBtn" class="btn-draw">
-          <span>🎍</span> おみくじを振る <span>🎍</span>
-        </button>
+    <!-- 結果カード -->
+    <div id="resultCard" class="result-card">
+      <div class="badge-container">
+        <span id="spotType" class="badge badge-type">神社</span>
+        <span id="spotPref" class="badge badge-pref">東京都</span>
       </div>
+      <h2 id="spotName" class="spot-name">明治神宮</h2>
+      <div id="spotDeity" class="spot-deity">主祭神：明治天皇・昭憲皇太后</div>
 
-      <!-- 結果カード -->
-      <div id="resultCard" class="result-card">
-        <div class="badge-container">
-          <span id="spotType" class="badge badge-type">神社</span>
-          <span id="spotPref" class="badge badge-pref">東京都</span>
-        </div>
-        <h2 id="spotName" class="spot-name">明治神宮</h2>
-        <div id="spotDeity" class="spot-deity">主祭神：明治天皇・昭憲皇太后</div>
-
-        <div class="info-grid">
-          <div class="info-item">
-            <div class="info-label">✨ ご利益・祈願</div>
-            <div id="spotBenefit" class="info-value">皇室繁栄・世界平和・家内安全・縁結び</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">⛩️ 参拝可能時間</div>
-            <div id="spotWorshipTime" class="info-value">日の出〜日の入り</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">📜 社務所・授与所 受付時間</div>
-            <div id="spotOfficeTime" class="info-value">9:00〜16:30</div>
-          </div>
-          <div class="info-item">
-            <div class="info-label">⭐ 有名度・参拝度</div>
-            <div id="spotFame" class="info-value stars">★★★★★</div>
-          </div>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-label">✨ ご利益・祈願</div>
+          <div id="spotBenefit" class="info-value">皇室繁栄・世界平和・家内安全・縁結び</div>
         </div>
 
-        <div class="action-buttons">
-          <button id="toggleVisitedBtn" class="btn-visited" onclick="toggleCurrentSpotVisited()">
-            ✅ 参拝済みにする
-          </button>
-          <a id="spotUrl" href="#" target="_blank" rel="noopener noreferrer" class="btn-link">
-            🌐 公式サイト・詳細情報を見る ↗
-          </a>
+        <div class="info-item">
+          <div class="info-label">⛩️ 参拝可能時間</div>
+          <div id="spotWorshipTime" class="info-value">日の出〜日の入り（月により変動）</div>
         </div>
-      </div>
-    </div>
 
-    <!-- 記録・ファイル連携タブ -->
-    <div id="tab-records" class="tab-content">
-      <div class="stats-card">
-        <div class="info-label">🏆 参拝達成状況</div>
-        <div id="statsText" class="stats-num">0 / 0 社寺 (0%)</div>
-        <p style="font-size:0.85rem; color:var(--text-muted);">おみくじや候補一覧からチェックインできます</p>
+        <div class="info-item">
+          <div class="info-label">📜 社務所・授与所 受付時間</div>
+          <div id="spotOfficeTime" class="info-value">9:00〜16:00頃</div>
+        </div>
 
-        <!-- iPhoneのファイルアプリ等に書き出し・読み込み -->
-        <div class="file-actions">
-          <button class="btn-file" onclick="exportDataFile()">💾 記録をファイルに保存</button>
-          <button class="btn-file" onclick="document.getElementById('importFile').click()">📁 ファイルから読み込む</button>
-          <input type="file" id="importFile" style="display:none" accept=".json" onchange="importDataFile(event)">
+        <div class="info-item">
+          <div class="info-label">⭐ 有名度・参拝度</div>
+          <div id="spotFame" class="info-value stars">★★★★★</div>
         </div>
       </div>
 
-      <div class="control-card">
-        <h3 style="font-size: 1rem; color: var(--primary-dark); margin-bottom: 10px;">📜 あなたの参拝済み一覧</h3>
-        <div id="visitedItemList" class="visited-item-list">
-          <!-- 参拝済みリストがここに入ります -->
-        </div>
-      </div>
+      <a id="spotUrl" href="#" target="_blank" rel="noopener noreferrer" class="btn-link">
+        🌐 公式サイト・詳細情報を見る ↗
+      </a>
     </div>
   </div>
 
@@ -633,5 +481,163 @@
   </footer>
 
   <script>
-    // データベース
-    const spotsData =
+    // 拡張データベース（全国主要スポット網羅）
+    const spotsData = [
+      // 東京都
+      { pref: "東京都", name: "明治神宮", type: "神社", deity: "明治天皇・昭憲皇太后", benefit: "皇室繁栄・家内安全・縁結び・開運", worshipTime: "日の出〜日の入り", officeTime: "9:00〜16:30", fame: 5, url: "https://www.meijijingu.or.jp/" },
+      { pref: "東京都", name: "浅草寺", type: "寺院", deity: "聖観世音菩薩", benefit: "所願成就・家内安全・商売繁盛", worshipTime: "6:00〜17:00（境内自由）", officeTime: "9:00〜17:00", fame: 5, url: "https://www.senso-ji.jp/" },
+      { pref: "東京都", name: "神田神社（神田明神）", type: "神社", deity: "大己貴命・少彦名命・平将門命", benefit: "商売繁盛・縁結び・勝運", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 5, url: "https://www.kandamyojin.or.jp/" },
+      { pref: "東京都", name: "日枝神社", type: "神社", deity: "大山喰神", benefit: "縁結び・安産・商売繁盛・社運隆昌", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:00", fame: 4, url: "https://www.hiejinja.net/" },
+      { pref: "東京都", name: "豪徳寺", type: "寺院", deity: "釈迦如来", benefit: "招福勝運・家内安全・縁結び", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:30", fame: 4, url: "https://gotokuji.jp/" },
+      { pref: "東京都", name: "浅草神社", type: "神社", deity: "土師真中知命・檜前浜成命・檜前竹成命", benefit: "家内安全・商売繁盛・心願成就", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:30", fame: 4, url: "https://www.asakusajinja.jp/" },
+      { pref: "東京都", name: "増上寺", type: "寺院", deity: "阿弥陀如来", benefit: "勝運・勝負運・厄除け", worshipTime: "6:00〜17:30", officeTime: "9:00〜17:00", fame: 4, url: "https://www.zojoji.or.jp/" },
+      { pref: "東京都", name: "東京大神宮", type: "神社", deity: "天照皇大神・豊受大神・造化三神", benefit: "縁結び・良縁・家内安全", worshipTime: "6:00〜21:00", officeTime: "9:00〜19:00", fame: 5, url: "https://www.tokyodaijingu.or.jp/" },
+      { pref: "東京都", name: "寛永寺", type: "寺院", deity: "薬師如来", benefit: "身体健全・病気平癒・開運", worshipTime: "9:00〜17:00", officeTime: "9:00〜16:30", fame: 3, url: "https://kaneiji.jp/" },
+      { pref: "東京都", name: "湯島天満宮（湯島天神）", type: "神社", deity: "天之手力雄命・菅原道真公", benefit: "学業成就・合格祈願・家内安全", worshipTime: "6:00〜20:00", officeTime: "8:30〜19:00", fame: 5, url: "https://www.yushimatenjin.or.jp/" },
+
+      // 京都府
+      { pref: "京都府", name: "伏見稲荷大社", type: "神社", deity: "宇迦之御魂大神", benefit: "商売繁盛・家内安全・五穀豊穣", worshipTime: "24時間参拝可能", officeTime: "8:30〜16:30", fame: 5, url: "https://inari.jp/" },
+      { pref: "京都府", name: "清水寺", type: "寺院", deity: "千手観世音菩薩", benefit: "無病息災・立身出世・良縁成就", worshipTime: "6:00〜18:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.kiyomizudera.or.jp/" },
+      { pref: "京都府", name: "金閣寺（鹿苑寺）", type: "寺院", deity: "釈迦如来", benefit: "開運招福・極楽浄土祈願", worshipTime: "9:00〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.shokoku-ji.jp/kinkakuji/" },
+      { pref: "京都府", name: "八坂神社", type: "神社", deity: "素戔嗚尊・櫛稲田姫命", benefit: "厄除け・無病息災・美容・縁結び", worshipTime: "24時間参拝可能", officeTime: "9:00〜17:00", fame: 5, url: "https://www.yasaka-jinja.or.jp/" },
+      { pref: "京都府", name: "貴船神社", type: "神社", deity: "高龗神", benefit: "運気昌隆・縁結び・諸願成就", worshipTime: "6:00〜20:00", officeTime: "9:00〜17:00", fame: 4, url: "https://kifunejinja.jp/" },
+      { pref: "京都府", name: "下鴨神社（賀茂御祖神社）", type: "神社", deity: "玉依姫命・賀茂建角身命", benefit: "縁結び・安産・厄除け・交通安全", worshipTime: "6:30〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.shimogamo-jinja.or.jp/" },
+      { pref: "京都府", name: "上賀茂神社（賀茂別雷神社）", type: "神社", deity: "賀茂別雷大神", benefit: "厄除け・方除・開運・必勝", worshipTime: "5:30〜17:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.kamigamojinja.jp/" },
+      { pref: "京都府", name: "銀閣寺（慈照寺）", type: "寺院", deity: "釈迦如来", benefit: "心願成就・文化芸術向上", worshipTime: "8:30〜17:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.shokoku-ji.jp/ginkakuji/" },
+      { pref: "京都府", name: "平安神宮", type: "神社", deity: "桓武天皇・孝明天皇", benefit: "皇室繁栄・開運招福・厄除け", worshipTime: "6:00〜17:30", officeTime: "8:30〜17:00", fame: 5, url: "https://www.heianjingu.or.jp/" },
+      { pref: "京都府", name: "南禅寺", type: "寺院", deity: "釈迦如来", benefit: "心身浄化・精神安定・学業成就", worshipTime: "8:40〜17:00", officeTime: "8:40〜17:00", fame: 4, url: "https://www.nanzenji.or.jp/" },
+
+      // 大阪府
+      { pref: "大阪府", name: "住吉大社", type: "神社", deity: "住吉大神", benefit: "航海安全・商売繁盛・厄除け", worshipTime: "6:00〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.sumiyoshitaisha.jp/" },
+      { pref: "大阪府", name: "大阪天満宮", type: "神社", deity: "菅原道真公", benefit: "学業成就・合格祈願・芸能上達", worshipTime: "9:00〜17:00", officeTime: "9:00〜17:00", fame: 4, url: "https://osakatenmangu.or.jp/" },
+      { pref: "大阪府", name: "四天王寺", type: "寺院", deity: "救世観音菩薩", benefit: "家内安全・身体健全・先祖供養", worshipTime: "8:30〜16:30", officeTime: "8:30〜16:30", fame: 4, url: "https://www.shitennoji.or.jp/" },
+      { pref: "大阪府", name: "今宮戎神社", type: "神社", deity: "天照皇大神・事代主命・外三神", benefit: "商売繁盛・福徳開運", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://imamiya-ebisu.jp/" },
+      { pref: "大阪府", name: "生国魂神社（難波お参り）", type: "神社", deity: "生島大神・足島大神", benefit: "縁結び・安産・厄除け", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://ikutama.jp/" },
+
+      // 北海道
+      { pref: "北海道", name: "北海道神宮", type: "神社", deity: "大国魂神ほか", benefit: "開運招福・金運・縁結び", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:00", fame: 5, url: "http://www.hokkaidojingu.or.jp/" },
+      { pref: "北海道", name: "函館八幡宮", type: "神社", deity: "品陀和気命", benefit: "開運・航海安全・必勝祈願", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 3, url: "http://hakodate-ha.jp/" },
+      { pref: "北海道", name: "札幌伏見稲荷神社", type: "神社", deity: "宇迦之御魂神", benefit: "商売繁盛・五穀豊穣・縁結び", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 3, url: "https://www.sapporofusimi.jp/" },
+
+      // 神奈川県
+      { pref: "神奈川県", name: "鶴岡八幡宮", type: "神社", deity: "応神天皇ほか", benefit: "勝運・出世・家内安全・良縁", worshipTime: "6:00〜20:30", officeTime: "8:30〜18:00", fame: 5, url: "https://www.tsurugaoka-hachimangu.jp/" },
+      { pref: "神奈川県", name: "川崎大師（平間寺）", type: "寺院", deity: "弘法大師空海", benefit: "厄除け・家内安全・交通安全", worshipTime: "6:00〜18:00", officeTime: "9:00〜16:00", fame: 5, url: "https://www.kawasakidaishi.com/" },
+      { pref: "神奈川県", name: "箱根神社", type: "神社", deity: "箱根大神", benefit: "心願成就・開運厄除・交通安全", worshipTime: "24時間開放", officeTime: "8:30〜17:00", fame: 5, url: "https://hakonejinja.or.jp/" },
+
+      // 愛知県
+      { pref: "愛知県", name: "熱田神宮", type: "神社", deity: "熱田大神", benefit: "家内安全・無病息災・出世開運", worshipTime: "24時間参拝可能", officeTime: "8:30〜16:30", fame: 5, url: "https://www.atsutajingu.or.jp/" },
+      { pref: "愛知県", name: "名古屋城・上野天神社ほか / 三光稲荷神社", type: "神社", deity: "宇迦御魂神", benefit: "商売繁盛・縁結び・良縁", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://inuyama-sanko.com/" },
+
+      // 福岡県
+      { pref: "福岡県", name: "太宰府天満宮", type: "神社", deity: "菅原道真公", benefit: "学業成就・合格祈願・厄除け", worshipTime: "6:30〜19:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.dazaifutenmangu.or.jp/" },
+      { pref: "福岡県", name: "宮地嶽神社", type: "神社", deity: "息長足比売命", benefit: "開運・商売繁盛・光の道", worshipTime: "日の出〜日の入り", officeTime: "8:30〜17:00", fame: 4, url: "https://www.miyajidake.or.jp/" },
+      { pref: "福岡県", name: "櫛田神社", type: "神社", deity: "大幡主命・天照大皇神・素戔嗚尊", benefit: "不老長寿・商売繁盛・博多祇園山笠", worshipTime: "4:00〜22:00", officeTime: "9:00〜17:00", fame: 4, url: "https://www.kushida-jinja.jp/" }
+    ];
+
+    // DOM要素の取得
+    const prefSelect = document.getElementById('prefSelect');
+    const drawBtn = document.getElementById('drawBtn');
+    const cylinder = document.getElementById('cylinder');
+    const stick = document.getElementById('stick');
+    const resultCard = document.getElementById('resultCard');
+
+    const candidateList = document.getElementById('candidateList');
+    const candidateCountBadge = document.getElementById('candidateCountBadge');
+
+    const spotType = document.getElementById('spotType');
+    const spotPref = document.getElementById('spotPref');
+    const spotName = document.getElementById('spotName');
+    const spotDeity = document.getElementById('spotDeity');
+    const spotBenefit = document.getElementById('spotBenefit');
+    const spotWorshipTime = document.getElementById('spotWorshipTime');
+    const spotOfficeTime = document.getElementById('spotOfficeTime');
+    const spotFame = document.getElementById('spotFame');
+    const spotUrl = document.getElementById('spotUrl');
+
+    let isDrawing = false;
+
+    // 候補社寺リストを画面に更新する関数
+    function updateCandidates() {
+      const selectedPref = prefSelect.value;
+      let filteredSpots = spotsData;
+
+      if (selectedPref !== 'all') {
+        filteredSpots = spotsData.filter(s => s.pref === selectedPref);
+      }
+
+      candidateCountBadge.textContent = `件`;
+      candidateList.innerHTML = '';
+
+      filteredSpots.forEach(spot => {
+        const tag = document.createElement('span');
+        tag.className = 'candidate-tag';
+        tag.textContent = ` ()`;
+        candidateList.appendChild(tag);
+      });
+    }
+
+    // 都道府県変更時に候補リストを更新
+    prefSelect.addEventListener('change', () => {
+      updateCandidates();
+      resultCard.classList.remove('active');
+      stick.classList.remove('drawn');
+    });
+
+    // 初期読み込み時にも実行
+    updateCandidates();
+
+    // おみくじを引くボタン
+    drawBtn.addEventListener('click', () => {
+      if (isDrawing) return;
+      isDrawing = true;
+
+      // 状態リセット
+      resultCard.classList.remove('active');
+      stick.classList.remove('drawn');
+
+      // 筒を振るアニメーション
+      cylinder.classList.add('shake');
+
+      setTimeout(() => {
+        cylinder.classList.remove('shake');
+        
+        // 棒が飛び出す
+        const randomNum = Math.floor(Math.random() * 100) + 1;
+        stick.textContent = `番`;
+        stick.classList.add('drawn');
+
+        setTimeout(() => {
+          // 社寺の抽出
+          const selectedPref = prefSelect.value;
+          let filteredSpots = spotsData;
+
+          if (selectedPref !== 'all') {
+            filteredSpots = spotsData.filter(s => s.pref === selectedPref);
+          }
+
+          if (filteredSpots.length === 0) {
+            filteredSpots = spotsData;
+          }
+
+          const spot = filteredSpots[Math.floor(Math.random() * filteredSpots.length)];
+
+          // 結果を表示
+          spotType.textContent = spot.type;
+          spotPref.textContent = spot.pref;
+          spotName.textContent = spot.name;
+          spotDeity.textContent = `主祭神/本尊：`;
+          spotBenefit.textContent = spot.benefit;
+          spotWorshipTime.textContent = spot.worshipTime;
+          spotOfficeTime.textContent = spot.officeTime;
+          spotFame.textContent = "★".repeat(spot.fame) + "☆".repeat(5 - spot.fame);
+          spotUrl.href = spot.url;
+
+          resultCard.classList.add('active');
+          isDrawing = false;
+        }, 500);
+
+      }, 800);
+    });
+  </script>
+</body>
+</html>
