@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -108,42 +107,6 @@
       border-color: var(--primary);
     }
 
-    /* 候補社寺を表示するスペース（おみくじの上） */
-    .candidate-box {
-      background: #faf8f5;
-      border: 1px dashed var(--gold);
-      border-radius: 12px;
-      padding: 12px 15px;
-      margin-bottom: 20px;
-    }
-
-    .candidate-header {
-      font-size: 0.85rem;
-      font-weight: bold;
-      color: var(--primary-dark);
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .candidate-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      max-height: 100px;
-      overflow-y: auto;
-    }
-
-    .candidate-tag {
-      font-size: 0.75rem;
-      background: #fff;
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 6px;
-      color: var(--text);
-    }
-
     .btn-draw {
       width: 100%;
       padding: 15px;
@@ -171,7 +134,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 15px 0 10px;
+      margin: 10px 0;
     }
 
     .cylinder {
@@ -365,7 +328,7 @@
       <div class="form-group">
         <label for="prefSelect">📍 都道府県を選択</label>
         <select id="prefSelect">
-          <option value="all">全国（すべての社寺）</option>
+          <option value="all">全国（ランダム）</option>
           <option value="北海道">北海道</option>
           <option value="青森県">青森県</option>
           <option value="岩手県">岩手県</option>
@@ -414,17 +377,6 @@
           <option value="鹿児島県">鹿児島県</option>
           <option value="沖縄県">沖縄県</option>
         </select>
-      </div>
-
-      <!-- おみくじの上に表示する候補社寺スペース -->
-      <div class="candidate-box">
-        <div class="candidate-header">
-          <span>🎯 この条件の出力候補</span>
-          <span id="candidateCountBadge">0件</span>
-        </div>
-        <div id="candidateList" class="candidate-list">
-          <!-- タグがここに動的に入ります -->
-        </div>
       </div>
 
       <div class="omikuji-container">
@@ -489,49 +441,39 @@
       { pref: "東京都", name: "神田神社（神田明神）", type: "神社", deity: "大己貴命・少彦名命・平将門命", benefit: "商売繁盛・縁結び・勝運", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 5, url: "https://www.kandamyojin.or.jp/" },
       { pref: "東京都", name: "日枝神社", type: "神社", deity: "大山喰神", benefit: "縁結び・安産・商売繁盛・社運隆昌", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:00", fame: 4, url: "https://www.hiejinja.net/" },
       { pref: "東京都", name: "豪徳寺", type: "寺院", deity: "釈迦如来", benefit: "招福勝運・家内安全・縁結び", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:30", fame: 4, url: "https://gotokuji.jp/" },
-      { pref: "東京都", name: "浅草神社", type: "神社", deity: "土師真中知命・檜前浜成命・檜前竹成命", benefit: "家内安全・商売繁盛・心願成就", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:30", fame: 4, url: "https://www.asakusajinja.jp/" },
-      { pref: "東京都", name: "増上寺", type: "寺院", deity: "阿弥陀如来", benefit: "勝運・勝負運・厄除け", worshipTime: "6:00〜17:30", officeTime: "9:00〜17:00", fame: 4, url: "https://www.zojoji.or.jp/" },
-      { pref: "東京都", name: "東京大神宮", type: "神社", deity: "天照皇大神・豊受大神・造化三神", benefit: "縁結び・良縁・家内安全", worshipTime: "6:00〜21:00", officeTime: "9:00〜19:00", fame: 5, url: "https://www.tokyodaijingu.or.jp/" },
-      { pref: "東京都", name: "寛永寺", type: "寺院", deity: "薬師如来", benefit: "身体健全・病気平癒・開運", worshipTime: "9:00〜17:00", officeTime: "9:00〜16:30", fame: 3, url: "https://kaneiji.jp/" },
-      { pref: "東京都", name: "湯島天満宮（湯島天神）", type: "神社", deity: "天之手力雄命・菅原道真公", benefit: "学業成就・合格祈願・家内安全", worshipTime: "6:00〜20:00", officeTime: "8:30〜19:00", fame: 5, url: "https://www.yushimatenjin.or.jp/" },
 
       // 京都府
       { pref: "京都府", name: "伏見稲荷大社", type: "神社", deity: "宇迦之御魂大神", benefit: "商売繁盛・家内安全・五穀豊穣", worshipTime: "24時間参拝可能", officeTime: "8:30〜16:30", fame: 5, url: "https://inari.jp/" },
-      { pref: "京都府", name: "清水寺", type: "寺院", deity: "千手観世音菩薩", benefit: "無病息災・立身出世・良縁成就", worshipTime: "6:00〜18:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.kiyomizudera.or.jp/" },
+      { pref: "京都府", name: "清水寺", type: "寺院", deity: "千手観世音菩薩", benefit: "無病息災・立身出世・良縁成就", worshipTime: "6:00〜18:00（夜間特別参拝あり）", officeTime: "8:30〜17:00", fame: 5, url: "https://www.kiyomizudera.or.jp/" },
       { pref: "京都府", name: "金閣寺（鹿苑寺）", type: "寺院", deity: "釈迦如来", benefit: "開運招福・極楽浄土祈願", worshipTime: "9:00〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.shokoku-ji.jp/kinkakuji/" },
       { pref: "京都府", name: "八坂神社", type: "神社", deity: "素戔嗚尊・櫛稲田姫命", benefit: "厄除け・無病息災・美容・縁結び", worshipTime: "24時間参拝可能", officeTime: "9:00〜17:00", fame: 5, url: "https://www.yasaka-jinja.or.jp/" },
       { pref: "京都府", name: "貴船神社", type: "神社", deity: "高龗神", benefit: "運気昌隆・縁結び・諸願成就", worshipTime: "6:00〜20:00", officeTime: "9:00〜17:00", fame: 4, url: "https://kifunejinja.jp/" },
-      { pref: "京都府", name: "下鴨神社（賀茂御祖神社）", type: "神社", deity: "玉依姫命・賀茂建角身命", benefit: "縁結び・安産・厄除け・交通安全", worshipTime: "6:30〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.shimogamo-jinja.or.jp/" },
-      { pref: "京都府", name: "上賀茂神社（賀茂別雷神社）", type: "神社", deity: "賀茂別雷大神", benefit: "厄除け・方除・開運・必勝", worshipTime: "5:30〜17:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.kamigamojinja.jp/" },
-      { pref: "京都府", name: "銀閣寺（慈照寺）", type: "寺院", deity: "釈迦如来", benefit: "心願成就・文化芸術向上", worshipTime: "8:30〜17:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.shokoku-ji.jp/ginkakuji/" },
-      { pref: "京都府", name: "平安神宮", type: "神社", deity: "桓武天皇・孝明天皇", benefit: "皇室繁栄・開運招福・厄除け", worshipTime: "6:00〜17:30", officeTime: "8:30〜17:00", fame: 5, url: "https://www.heianjingu.or.jp/" },
-      { pref: "京都府", name: "南禅寺", type: "寺院", deity: "釈迦如来", benefit: "心身浄化・精神安定・学業成就", worshipTime: "8:40〜17:00", officeTime: "8:40〜17:00", fame: 4, url: "https://www.nanzenji.or.jp/" },
 
       // 大阪府
-      { pref: "大阪府", name: "住吉大社", type: "神社", deity: "住吉大神", benefit: "航海安全・商売繁盛・厄除け", worshipTime: "6:00〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.sumiyoshitaisha.jp/" },
+      { pref: "大阪府", name: "住吉大社", type: "神社", deity: "住吉大神（底筒男命等）", benefit: "航海安全・商売繁盛・厄除け", worshipTime: "6:00〜17:00", officeTime: "9:00〜17:00", fame: 5, url: "https://www.sumiyoshitaisha.jp/" },
       { pref: "大阪府", name: "大阪天満宮", type: "神社", deity: "菅原道真公", benefit: "学業成就・合格祈願・芸能上達", worshipTime: "9:00〜17:00", officeTime: "9:00〜17:00", fame: 4, url: "https://osakatenmangu.or.jp/" },
       { pref: "大阪府", name: "四天王寺", type: "寺院", deity: "救世観音菩薩", benefit: "家内安全・身体健全・先祖供養", worshipTime: "8:30〜16:30", officeTime: "8:30〜16:30", fame: 4, url: "https://www.shitennoji.or.jp/" },
-      { pref: "大阪府", name: "今宮戎神社", type: "神社", deity: "天照皇大神・事代主命・外三神", benefit: "商売繁盛・福徳開運", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://imamiya-ebisu.jp/" },
-      { pref: "大阪府", name: "生国魂神社（難波お参り）", type: "神社", deity: "生島大神・足島大神", benefit: "縁結び・安産・厄除け", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://ikutama.jp/" },
 
       // 北海道
-      { pref: "北海道", name: "北海道神宮", type: "神社", deity: "大国魂神ほか", benefit: "開運招福・金運・縁結び", worshipTime: "6:00〜17:00", officeTime: "9:00〜16:00", fame: 5, url: "http://www.hokkaidojingu.or.jp/" },
-      { pref: "北海道", name: "函館八幡宮", type: "神社", deity: "品陀和気命", benefit: "開運・航海安全・必勝祈願", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 3, url: "http://hakodate-ha.jp/" },
-      { pref: "北海道", name: "札幌伏見稲荷神社", type: "神社", deity: "宇迦之御魂神", benefit: "商売繁盛・五穀豊穣・縁結び", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 3, url: "https://www.sapporofusimi.jp/" },
+      { pref: "北海道", name: "北海道神宮", type: "神社", deity: "大国魂神・大那牟遅神・少彦名神・明治天皇", benefit: "開運招福・金運・縁結び・家内安全", worshipTime: "6:00〜17:00（季節変動）", officeTime: "9:00〜16:00", fame: 5, url: "http://www.hokkaidojingu.or.jp/" },
+      { pref: "北海道", name: "函館八幡宮", type: "神社", deity: "品陀和気命（応神天皇）", benefit: "開運・航海安全・必勝祈願", worshipTime: "24時間開放", officeTime: "9:00〜17:00", fame: 3, url: "http://hakodate-ha.jp/" },
 
       // 神奈川県
-      { pref: "神奈川県", name: "鶴岡八幡宮", type: "神社", deity: "応神天皇ほか", benefit: "勝運・出世・家内安全・良縁", worshipTime: "6:00〜20:30", officeTime: "8:30〜18:00", fame: 5, url: "https://www.tsurugaoka-hachimangu.jp/" },
+      { pref: "神奈川県", name: "鶴岡八幡宮", type: "神社", deity: "応神天皇・比売神・神功皇后", benefit: "勝運・出世・家内安全・良縁", worshipTime: "6:00〜20:30", officeTime: "8:30〜18:00", fame: 5, url: "https://www.tsurugaoka-hachimangu.jp/" },
       { pref: "神奈川県", name: "川崎大師（平間寺）", type: "寺院", deity: "弘法大師空海", benefit: "厄除け・家内安全・交通安全", worshipTime: "6:00〜18:00", officeTime: "9:00〜16:00", fame: 5, url: "https://www.kawasakidaishi.com/" },
-      { pref: "神奈川県", name: "箱根神社", type: "神社", deity: "箱根大神", benefit: "心願成就・開運厄除・交通安全", worshipTime: "24時間開放", officeTime: "8:30〜17:00", fame: 5, url: "https://hakonejinja.or.jp/" },
+
+      // 島根県
+      { pref: "島根県", name: "出雲大社", type: "神社", deity: "大国主大神", benefit: "縁結び・子孫繁栄・開運招福", worshipTime: "6:00〜18:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.izumooyashiro.or.jp/" },
+
+      // 伊勢・三重県
+      { pref: "三重県", name: "伊勢神宮（内宮）", type: "神社", deity: "天照大御神", benefit: "国家安泰・国土安穏・開運・感謝", worshipTime: "5:00〜18:00（季節変動）", officeTime: "8:30〜16:00", fame: 5, url: "https://www.isejingu.or.jp/" },
 
       // 愛知県
-      { pref: "愛知県", name: "熱田神宮", type: "神社", deity: "熱田大神", benefit: "家内安全・無病息災・出世開運", worshipTime: "24時間参拝可能", officeTime: "8:30〜16:30", fame: 5, url: "https://www.atsutajingu.or.jp/" },
-      { pref: "愛知県", name: "名古屋城・上野天神社ほか / 三光稲荷神社", type: "神社", deity: "宇迦御魂神", benefit: "商売繁盛・縁結び・良縁", worshipTime: "6:00〜18:00", officeTime: "9:00〜17:00", fame: 4, url: "https://inuyama-sanko.com/" },
+      { pref: "愛知県", name: "熱田神宮", type: "神社", deity: "熱田大神（草薙神剣）", benefit: "家内安全・無病息災・出世開運", worshipTime: "24時間参拝可能", officeTime: "8:30〜16:30", fame: 5, url: "https://www.atsutajingu.or.jp/" },
 
       // 福岡県
       { pref: "福岡県", name: "太宰府天満宮", type: "神社", deity: "菅原道真公", benefit: "学業成就・合格祈願・厄除け", worshipTime: "6:30〜19:00", officeTime: "8:30〜17:00", fame: 5, url: "https://www.dazaifutenmangu.or.jp/" },
-      { pref: "福岡県", name: "宮地嶽神社", type: "神社", deity: "息長足比売命", benefit: "開運・商売繁盛・光の道", worshipTime: "日の出〜日の入り", officeTime: "8:30〜17:00", fame: 4, url: "https://www.miyajidake.or.jp/" },
-      { pref: "福岡県", name: "櫛田神社", type: "神社", deity: "大幡主命・天照大皇神・素戔嗚尊", benefit: "不老長寿・商売繁盛・博多祇園山笠", worshipTime: "4:00〜22:00", officeTime: "9:00〜17:00", fame: 4, url: "https://www.kushida-jinja.jp/" }
+      { pref: "福岡県", name: "宮地嶽神社", type: "神社", deity: "息長足比売命", benefit: "開運・商売繁盛・光の道", worshipTime: "日の出〜日の入り", officeTime: "8:30〜17:00", fame: 4, url: "https://www.miyajidake.or.jp/" }
     ];
 
     // DOM要素の取得
@@ -540,9 +482,6 @@
     const cylinder = document.getElementById('cylinder');
     const stick = document.getElementById('stick');
     const resultCard = document.getElementById('resultCard');
-
-    const candidateList = document.getElementById('candidateList');
-    const candidateCountBadge = document.getElementById('candidateCountBadge');
 
     const spotType = document.getElementById('spotType');
     const spotPref = document.getElementById('spotPref');
@@ -556,37 +495,6 @@
 
     let isDrawing = false;
 
-    // 候補社寺リストを画面に更新する関数
-    function updateCandidates() {
-      const selectedPref = prefSelect.value;
-      let filteredSpots = spotsData;
-
-      if (selectedPref !== 'all') {
-        filteredSpots = spotsData.filter(s => s.pref === selectedPref);
-      }
-
-      candidateCountBadge.textContent = `件`;
-      candidateList.innerHTML = '';
-
-      filteredSpots.forEach(spot => {
-        const tag = document.createElement('span');
-        tag.className = 'candidate-tag';
-        tag.textContent = ` ()`;
-        candidateList.appendChild(tag);
-      });
-    }
-
-    // 都道府県変更時に候補リストを更新
-    prefSelect.addEventListener('change', () => {
-      updateCandidates();
-      resultCard.classList.remove('active');
-      stick.classList.remove('drawn');
-    });
-
-    // 初期読み込み時にも実行
-    updateCandidates();
-
-    // おみくじを引くボタン
     drawBtn.addEventListener('click', () => {
       if (isDrawing) return;
       isDrawing = true;
@@ -615,8 +523,9 @@
             filteredSpots = spotsData.filter(s => s.pref === selectedPref);
           }
 
+          // データが無い場合の対応
           if (filteredSpots.length === 0) {
-            filteredSpots = spotsData;
+            filteredSpots = spotsData; // 全体からフォールバック
           }
 
           const spot = filteredSpots[Math.floor(Math.random() * filteredSpots.length)];
@@ -641,3 +550,4 @@
   </script>
 </body>
 </html>
+
